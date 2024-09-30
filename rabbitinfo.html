@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabbit Profile</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-image: url('https://i.pinimg.com/564x/13/09/be/1309bedbe8e0684bcee7d04304e93dc3.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+
+        /* Profile card styling */
+        .profile-card {
+            max-width: 400px;
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-details {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .profile-details p {
+            margin: 8px 0;
+        }
+
+        .profile-details .label {
+            font-weight: bold; /* Make labels bold */
+        }
+
+        .edit-details {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Style for capitalizing the gender */
+        #gender {
+            text-transform: capitalize; /* Ensure 'Male' or 'Female' has first letter capitalized */
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .cage-list {
+                flex-direction: column;
+            }
+
+            form {
+                width: 90%;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 10px;
+            }
+
+            .cage-list button {
+                font-size: 1em;
+                padding: 10px;
+            }
+
+            form {
+                width: 100%;
+            }
+
+            body {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <div class="profile-picture">
+            <img src="https://i.pinimg.com/564x/fd/2a/2c/fd2a2cdad94156e950fa549ac59e1655.jpg" alt="Rabbit Profile Picture">
+        </div>
+        <h2 id="breed">Breed</h2>
+        <div class="profile-details">
+            <p><span class="label">Serial No.:</span> <span id="serial-no">Unknown</span></p>
+            <p><span class="label">Cage No.:</span> <span id="cage-no">1</span></p>
+            <p><span class="label">Age:</span> <span id="age">Unknown</span></p>
+            <p><span class="label">Gender:</span> <span id="gender">Unknown</span></p>
+            <p><span class="label">Weight:</span> <span id="weight">Unknown</span></p>
+            <p><span class="label">Family:</span> <span id="family">Unknown</span></p>
+            <p><span class="label">Food Intake:</span> <span id="food-intake">Unknown</span></p>
+            <p><span class="label">Pregnancy Start:</span> <span id="pregnancy-start">Unknown</span></p>
+            <p><span class="label">Pregnancy Due:</span> <span id="pregnancy-due">Unknown</span></p>
+            <p><span class="label">Eligible for Mating:</span> <span id="mating">Unknown</span></p>
+        </div>
+        <div>
+            <a href="index.html?cage=1" class="edit-details" id="edit-link">Edit Details</a>
+        </div>
+    </div>
+
+  <script>
+window.onload = function() {
+    // Extract cage number from URL
+    const params = new URLSearchParams(window.location.search);
+    const cageNumber = params.get('cage') || 1;
+
+    // Load rabbit data from localStorage
+    const data = JSON.parse(localStorage.getItem(`rabbitData${cageNumber}`)) || {};
+
+    // Update profile details
+    document.getElementById('breed').innerText = data.breed || 'Unknown';
+    document.getElementById('serial-no').innerText = data.serialNumber || 'Unknown';
+    document.getElementById('cage-no').innerText = cageNumber;
+    document.getElementById('age').innerText = calculateAge(data.birthDate) || 'Unknown';
+    document.getElementById('weight').innerText = data.weight || 'Unknown';
+    document.getElementById('family').innerText = data.family || 'Unknown';
+    document.getElementById('food-intake').innerText = data.foodIntake === "normal" ? "Normal" : "Irregular";
+    document.getElementById('pregnancy-start').innerText = data.pregnancyStart || 'Unknown';
+    document.getElementById('pregnancy-due').innerText = data.dueDate || 'Unknown';
+    document.getElementById('mating').innerText = data.mating === "yes" ? "Yes" : "No";
+
+    // Determine and set gender from the index.html 'Gender' field
+    document.getElementById('gender').innerText = (data.gender || 'Unknown').toLowerCase().replace(/^\w/, c => c.toUpperCase());
+
+    // Update edit link dynamically to point to the correct cage number
+    document.getElementById('edit-link').href = `index.html?cage=${cageNumber}`;
+}
+
+// Function to calculate age from birth date
+function calculateAge(birthDate) {
+    if (!birthDate) return null;
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    // If age is less than 1 year, calculate months
+    if (age < 1) {
+        const months = (today.getFullYear() - birth.getFullYear()) * 12 + today.getMonth() - birth.getMonth();
+        return months + (months > 1 ? ' months' : ' month');
+    }
+
+    return age + (age > 1 ? ' years' : ' year');
+}
+</script>
+</body>
+</html>
