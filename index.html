@@ -3,88 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rabbit Cage</title>
+    <title>RABBIT CAGE</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <button onclick="goHome()">&#x1F3E0;</button>
-        <span id="headerTitle">Rabbit Cage</span>
+        <button onclick="goHome()">&#x1F3E0;</button> 
+        <span id="headerTitle">RABBIT CAGE</span>
         <button onclick="goToRabbitProfile()">&#x1F407;</button>
     </header>
 
-    <div id="cageDetails">
+    <!-- Cage List (Home Page) -->
+    <div id="homePage" class="cage-list">
+        <button onclick="showCageDetails(1)">CAGE 1</button>
+        <button onclick="showCageDetails(2)">CAGE 2</button>
+        <button onclick="showCageDetails(3)">CAGE 3</button>
+        <button onclick="showCageDetails(4)">CAGE 4</button>
+        <button onclick="showCageDetails(5)">CAGE 5</button>
+        <button onclick="showCageDetails(6)">CAGE 6</button>
+    </div>
+
+    <!-- Cage Details (Form) -->
+    <div id="cageDetails" style="display: none;">
+        <h2 id="formTitle">CAGE NO. <span id="cageNumber"></span></h2>
         <form id="rabbitForm" onsubmit="saveData(event)">
+            <!-- Serial Number -->
             <div>
-                <label for="serialNumber">SERIAL NUMBER:</label>
+                <label for="serialNumber">Serial Number:</label>
                 <input type="text" id="serialNumber" name="serialNumber" required>
             </div>
+
+            <!-- Breed -->
             <div>
-                <label for="breed">BREED:</label>
-                <input type="text" id="breed" name="breed">
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed" placeholder="e.g., Lionhead, Angora" required>
             </div>
+
+            <!-- Family -->
             <div>
-                <label for="family">FAMILY:</label>
+                <label for="family">Family:</label>
                 <input type="text" id="family" name="family">
             </div>
+
+            <!-- Date of Birth -->
             <div>
-                <label for="birthDate">DATE OF BIRTH:</label>
-                <input type="date" id="birthDate" name="birthDate">
+                <label for="birthDate">Date of Birth:</label>
+                <input type="date" id="birthDate" name="birthDate" required>
             </div>
+
+            <!-- Weight -->
             <div>
-                <label for="weight">WEIGHT:</label>
-                <input type="text" id="weight" name="weight">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" step="0.1" id="weight" name="weight" min="0" required>
             </div>
+
+            <!-- Gender -->
             <div>
-                <label for="gender">GENDER:</label>
-                <label><input type="radio" name="gender" value="male" onclick="togglePregnancy(false)"> MALE</label>
-                <label><input type="radio" name="gender" value="female" onclick="togglePregnancy(true)"> FEMALE</label>
+                <label>Gender:</label>
+                <label><input type="radio" name="gender" value="male" onclick="togglePregnancy(false)" required> Male</label>
+                <label><input type="radio" name="gender" value="female" onclick="togglePregnancy(true)" required> Female</label>
             </div>
+
+            <!-- Pregnant Option -->
             <div id="pregnancyOption" style="display: none;">
-                <label>PREGNANT:</label>
-                <label><input type="radio" name="pregnant" value="yes" onclick="togglePregnancyDetails(true)"> YES</label>
-                <label><input type="radio" name="pregnant" value="no" onclick="togglePregnancyDetails(false)"> NO</label>
+                <label>Pregnant:</label>
+                <label><input type="radio" name="pregnant" value="yes" onclick="togglePregnancyDetails(true)" required> Yes</label>
+                <label><input type="radio" name="pregnant" value="no" onclick="togglePregnancyDetails(false)" required> No</label>
             </div>
+
+            <!-- Pregnancy Details -->
             <div id="pregnancyDetails" style="display: none;">
                 <div>
-                    <label for="matedRabbit">MATED RABBIT:</label>
+                    <label for="matedRabbit">Mated Rabbit:</label>
                     <input type="text" id="matedRabbit" name="matedRabbit">
                 </div>
                 <div>
-                    <label for="pregnancyStart">START OF PREGNANCY:</label>
+                    <label for="pregnancyStart">Start of Pregnancy:</label>
                     <input type="date" id="pregnancyStart" name="pregnancyStart">
                 </div>
                 <div>
-                    <label for="dueDate">DUE DATE OF PREGNANCY:</label>
+                    <label for="dueDate">Due Date:</label>
                     <input type="date" id="dueDate" name="dueDate">
                 </div>
             </div>
+
+            <!-- Food Intake -->
             <div>
-                <label for="foodIntake">FOOD INTAKE:</label>
-                <label><input type="radio" name="foodIntake" value="normal"> NORMAL</label>
-                <label><input type="radio" name="foodIntake" value="irregular"> IRREGULAR</label>
+                <label>Food Intake:</label>
+                <label><input type="radio" name="foodIntake" value="normal" required> Normal</label>
+                <label><input type="radio" name="foodIntake" value="irregular" required> Irregular</label>
             </div>
+
+            <!-- Eligible for Mating -->
             <div>
-                <label>ELIGIBLE FOR MATING:</label>
-                <label><input type="radio" name="mating" value="yes"> YES</label>
-                <label><input type="radio" name="mating" value="no"> NO</label>
+                <label>Eligible for Mating:</label>
+                <label><input type="radio" name="mating" value="yes" required> Yes</label>
+                <label><input type="radio" name="mating" value="no" required> No</label>
             </div>
+
+            <!-- Notes -->
             <div>
-                <label for="note">NOTE:</label>
-                <textarea id="note" name="note"></textarea>
+                <label for="note">Notes:</label>
+                <textarea id="note" name="note" placeholder="Any additional notes..."></textarea>
             </div>
+
+            <!-- Submit and Cancel Buttons -->
             <div class="buttons">
-                <button type="submit">SUBMIT</button>
-                <button type="button" onclick="goHome()">CANCEL</button>
-                <button type="button" onclick="deleteCage()">DELETE CAGE</button>
-                <button type="button" onclick="clearForm()">CLEAR FORM</button>
+                <button type="submit">Save</button>
+                <button type="button" onclick="goHome()">Cancel</button>
             </div>
         </form>
     </div>
 
-    <div id="homePage" class="cage-list" style="display: none;">
-        <div id="cageButtons"></div>
-        <button onclick="addNewCage()">ADD NEW CAGE</button>
-    </div>
+    <script src="script.js"></script>
 </body>
 </html>
